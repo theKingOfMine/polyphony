@@ -366,3 +366,130 @@
     }
 
     main();
+```
+
+
+# 12，vue技术
+
+    1，npm install vue 下载vue包，会在node_modules文件夹里
+    2，引包 在html 文件里通过 script引入vue.js 在body html代码的最后
+```js
+    3，创建实例化对象 
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.a',
+            data: {
+                msg: '马吉春是世界之神'
+            }
+        })
+    </script>
+
+    4, 插值表达式
+    {{表达式}}
+    - 表示对象要有空格{{ {name:'马吉春'} }}
+    - 字符串也可以 {{'马吉春是世界之神'}}
+    - 判断后的布尔值 {{ 1==1 }}
+    - 三元表达式 {{ true?'正确的':'错误的'}}
+        <div class="a">{{msg.split('').reverse().join('')}}</div>
+
+    5，vue常用v-指令
+
+        v-text：元素innerText属性，必须是双标签，跟{{}}效果一样，使用较少
+        v-html:元素的innderHTML
+        v-if: 判断是否插入这个元素，相当于对元素的销毁和创建
+        v-else-if
+        v-else
+        v-show 会给元素的style加上display:none
+        v-bing 绑定属性 可以用简写 : 只有一个冒号
+        v-on 绑定点击事件 v-on：原生的事件名='函数名'  简写@
+        ## 示范
+
+                     const app = new Vue({
+                            el: '#app',
+                            data: {
+                                msg: '马吉春是世界之神',
+                                africa: "每年7月，我都会想到肯尼亚的马拉河。现在面对着河里的那些成群结对虎视眈眈的鳄鱼和河马们，迁徙的角马们还是会不顾一切的纵身一跃吧。",
+                                theKing: `<div>我好喜欢你呀</div>`,
+                                isThatYou: true,
+                                isActive : false,
+                                url: 'https://www.duoyinchina.com/article/东非动物大迁徙.files/东非动物大迁徙1953.png',
+                                g: [
+                                    {
+                                        id: 1,
+                                        name: '冰清玉洁',
+                                        level : '1',
+                                    },
+                                    {
+                                        id: 2,
+                                        name: '泰3',
+                                        level : '2',
+                                    },
+                                    {
+                                        id: 3,
+                                        name: '泰1',
+                                        level : '3',
+                                    }
+                                ],
+                                zidian: {
+                                        id: 165464,
+                                        name: '马吉春',
+                                        level : '世界第一',
+                                    }
+
+                                },
+                                template:`
+                                        <div class="app">
+                                            <h3>v-text示范</h3>
+                                            <div v-text='africa'></div>
+                                            <div class="line"></div>
+                                            <h3>v-html示范</h3>
+                                            <div v-html='theKing'></div>
+                                            <div class="line"></div>
+                                            <h3>三元运算示范</h3>
+                                            <div class="a">{{msg.split('').reverse().join('')}}</div>
+                                            <div class="line"></div>
+                                            <h3>v-if示范</h3>
+                                            <div v-if='Math.random()>0.5'>是的，我在呢</div>
+                                            <div v-else>是的，我并不在</div>
+                                            <div class="line"></div>
+                                            <h3>v-show示范</h3>
+                                            <div v-show='isThatYou'>当时间像风一样飞过黑夜</div>
+                                            <div v-show='!isThatYou'>当时间像风一样飞过黑夜</div>
+                                            <div class="line"></div>
+
+                                            <h3>v-bind:class示范 v-bind可以绑定所有属性</h3>
+                                            <div class="bind" v-bind:class={active:isActive}></div>
+                                            <div class="line"></div>
+                                            <h3>v-bind 其他属性示范 简写方式只用一个 : v-bind可以绑定所有属性</h3>
+                                            <img :src="url" style="width:100%">
+                                            <div class="line"></div>
+                                            <h3>v-on示范 绑定事件</h3>
+                                            <div v-bind:class={active:isActive} v-on:click='clickHandler'>当时间像风一样飞过黑夜</div>
+                                            <div class="line"></div>
+                                            <h3>v-for示范</h3>
+                                            <ul>
+                                                <li v-for='(girl, index) in g'>
+                                                <h2>{{girl.name}}</h2>
+                                                <h2>{{index}}</h2>
+                                                </li>
+                                            </ul>
+
+                                            <ul>
+                                                <li v-for='(value, key) in zidian'>
+                                                <h2>{{key}} === {{value}}</h2>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    `,
+
+                                    methods: {
+                                        clickHandler(e){
+                                            console.log(this);
+                                            this.isActive = !this.isActive;
+                                        }
+                                    },
+                            })
+
+    6,vue的双向数据绑定

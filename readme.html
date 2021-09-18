@@ -380,7 +380,131 @@ git rm -r 删除文件夹
         <span class="hljs-built_in">console</span>.log(data);
     }
 
-    main();</div></code></pre>
+    main();
+</div></code></pre>
+<h1 id="12vue技术">12，vue技术</h1>
+<pre><code>1，npm install vue 下载vue包，会在node_modules文件夹里
+2，引包 在html 文件里通过 script引入vue.js 在body html代码的最后
+</code></pre>
+<pre><code class="language-js"><div>    <span class="hljs-number">3</span>，创建实例化对象 
+
+    &lt;script src=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.js&quot;</span>&gt;&lt;/script&gt;
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Vue({
+            <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.a&#x27;</span>,
+            <span class="hljs-attr">data</span>: {
+                <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;马吉春是世界之神&#x27;</span>
+            }
+        })
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+
+    <span class="hljs-number">4</span>, 插值表达式
+    {{表达式}}
+    - 表示对象要有空格{{ {<span class="hljs-attr">name</span>:<span class="hljs-string">&#x27;马吉春&#x27;</span>} }}
+    - 字符串也可以 {{<span class="hljs-string">&#x27;马吉春是世界之神&#x27;</span>}}
+    - 判断后的布尔值 {{ <span class="hljs-number">1</span>==<span class="hljs-number">1</span> }}
+    - 三元表达式 {{ <span class="hljs-literal">true</span>?<span class="hljs-string">&#x27;正确的&#x27;</span>:<span class="hljs-string">&#x27;错误的&#x27;</span>}}
+        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;a&quot;</span>&gt;{{msg.split(<span class="hljs-string">&#x27;&#x27;</span>).reverse().join(<span class="hljs-string">&#x27;&#x27;</span>)}}&lt;/div&gt;
+
+    <span class="hljs-number">5</span>，vue常用v-指令
+
+        v-text：元素innerText属性，必须是双标签，跟{{}}效果一样，使用较少
+        v-html:元素的innderHTML
+        v-<span class="hljs-keyword">if</span>: 判断是否插入这个元素，相当于对元素的销毁和创建
+        v-<span class="hljs-keyword">else</span>-<span class="hljs-keyword">if</span>
+        v-<span class="hljs-keyword">else</span>
+        v-show 会给元素的style加上display:none
+        v-bing 绑定属性 可以用简写 : 只有一个冒号
+        v-on 绑定点击事件 v-on：原生的事件名=<span class="hljs-string">&#x27;函数名&#x27;</span>  简写@
+        ## 示范
+
+                     <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Vue({
+                            <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+                            <span class="hljs-attr">data</span>: {
+                                <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;马吉春是世界之神&#x27;</span>,
+                                <span class="hljs-attr">africa</span>: <span class="hljs-string">&quot;每年7月，我都会想到肯尼亚的马拉河。现在面对着河里的那些成群结对虎视眈眈的鳄鱼和河马们，迁徙的角马们还是会不顾一切的纵身一跃吧。&quot;</span>,
+                                <span class="hljs-attr">theKing</span>: <span class="hljs-string">`&lt;div&gt;我好喜欢你呀&lt;/div&gt;`</span>,
+                                <span class="hljs-attr">isThatYou</span>: <span class="hljs-literal">true</span>,
+                                <span class="hljs-attr">isActive</span> : <span class="hljs-literal">false</span>,
+                                <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;https://www.duoyinchina.com/article/东非动物大迁徙.files/东非动物大迁徙1953.png&#x27;</span>,
+                                <span class="hljs-attr">g</span>: [
+                                    {
+                                        <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
+                                        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;冰清玉洁&#x27;</span>,
+                                        <span class="hljs-attr">level</span> : <span class="hljs-string">&#x27;1&#x27;</span>,
+                                    },
+                                    {
+                                        <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>,
+                                        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;泰3&#x27;</span>,
+                                        <span class="hljs-attr">level</span> : <span class="hljs-string">&#x27;2&#x27;</span>,
+                                    },
+                                    {
+                                        <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>,
+                                        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;泰1&#x27;</span>,
+                                        <span class="hljs-attr">level</span> : <span class="hljs-string">&#x27;3&#x27;</span>,
+                                    }
+                                ],
+                                <span class="hljs-attr">zidian</span>: {
+                                        <span class="hljs-attr">id</span>: <span class="hljs-number">165464</span>,
+                                        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;马吉春&#x27;</span>,
+                                        <span class="hljs-attr">level</span> : <span class="hljs-string">&#x27;世界第一&#x27;</span>,
+                                    }
+
+                                },
+                                <span class="hljs-attr">template</span>:<span class="hljs-string">`
+                                        &lt;div class=&quot;app&quot;&gt;
+                                            &lt;h3&gt;v-text示范&lt;/h3&gt;
+                                            &lt;div v-text=&#x27;africa&#x27;&gt;&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-html示范&lt;/h3&gt;
+                                            &lt;div v-html=&#x27;theKing&#x27;&gt;&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;三元运算示范&lt;/h3&gt;
+                                            &lt;div class=&quot;a&quot;&gt;{{msg.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;)}}&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-if示范&lt;/h3&gt;
+                                            &lt;div v-if=&#x27;Math.random()&gt;0.5&#x27;&gt;是的，我在呢&lt;/div&gt;
+                                            &lt;div v-else&gt;是的，我并不在&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-show示范&lt;/h3&gt;
+                                            &lt;div v-show=&#x27;isThatYou&#x27;&gt;当时间像风一样飞过黑夜&lt;/div&gt;
+                                            &lt;div v-show=&#x27;!isThatYou&#x27;&gt;当时间像风一样飞过黑夜&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+
+                                            &lt;h3&gt;v-bind:class示范 v-bind可以绑定所有属性&lt;/h3&gt;
+                                            &lt;div class=&quot;bind&quot; v-bind:class={active:isActive}&gt;&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-bind 其他属性示范 简写方式只用一个 : v-bind可以绑定所有属性&lt;/h3&gt;
+                                            &lt;img :src=&quot;url&quot; style=&quot;width:100%&quot;&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-on示范 绑定事件&lt;/h3&gt;
+                                            &lt;div v-bind:class={active:isActive} v-on:click=&#x27;clickHandler&#x27;&gt;当时间像风一样飞过黑夜&lt;/div&gt;
+                                            &lt;div class=&quot;line&quot;&gt;&lt;/div&gt;
+                                            &lt;h3&gt;v-for示范&lt;/h3&gt;
+                                            &lt;ul&gt;
+                                                &lt;li v-for=&#x27;(girl, index) in g&#x27;&gt;
+                                                &lt;h2&gt;{{girl.name}}&lt;/h2&gt;
+                                                &lt;h2&gt;{{index}}&lt;/h2&gt;
+                                                &lt;/li&gt;
+                                            &lt;/ul&gt;
+
+                                            &lt;ul&gt;
+                                                &lt;li v-for=&#x27;(value, key) in zidian&#x27;&gt;
+                                                &lt;h2&gt;{{key}} === {{value}}&lt;/h2&gt;
+                                                &lt;/li&gt;
+                                            &lt;/ul&gt;
+                                        &lt;/div&gt;
+                                    `</span>,
+
+                                    <span class="hljs-attr">methods</span>: {
+                                        clickHandler(e){
+                                            <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>);
+                                            <span class="hljs-built_in">this</span>.isActive = !<span class="hljs-built_in">this</span>.isActive;
+                                        }
+                                    },
+                            })
+
+    <span class="hljs-number">6</span>,vue的双向数据绑定</div></code></pre>
 
     </body>
     </html>
