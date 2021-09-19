@@ -492,4 +492,32 @@
                                     },
                             })
 
-    6,vue的双向数据绑定
+    6,vue的双向数据绑定 
+    
+            <div id="app">
+            <h2> v-model只能用在有value属性的标签上，它是v-bind：value和v-on=input的语法糖</h2>
+            <input type="text" v-model="msg">
+            <h3>{{msg}}</h3>
+            <div class='line'></div>
+            <input type="text" v-bind:value='msg' v-on:input='valueChange'>
+            <h3>{{msg}}</h3>
+            </div>
+            <script src="../node_modules/vue/dist/vue.js"></script>
+            <script>
+                const app = new Vue({
+                                el: '#app',
+                                data:{
+                                    msg: '马吉春是世界之神'
+                                },
+                                methods: {
+                                    valueChange(e){
+                                        this.msg = e.target.value
+                                    }
+                                },
+
+
+
+
+
+                })
+            </script>

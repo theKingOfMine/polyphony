@@ -504,7 +504,35 @@ git rm -r 删除文件夹
                                     },
                             })
 
-    <span class="hljs-number">6</span>,vue的双向数据绑定</div></code></pre>
+    <span class="hljs-number">6</span>,vue的双向数据绑定 
+    
+            &lt;div id=<span class="hljs-string">&quot;app&quot;</span>&gt;
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span> v-model只能用在有value属性的标签上，它是v-bind：value和v-on=input的语法糖<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;msg&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{{msg}}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;line&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">v-bind:value</span>=<span class="hljs-string">&#x27;msg&#x27;</span> <span class="hljs-attr">v-on:input</span>=<span class="hljs-string">&#x27;valueChange&#x27;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{{msg}}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+                <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Vue({
+                                <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+                                <span class="hljs-attr">data</span>:{
+                                    <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;马吉春是世界之神&#x27;</span>
+                                },
+                                <span class="hljs-attr">methods</span>: {
+                                    valueChange(e){
+                                        <span class="hljs-built_in">this</span>.msg = e.target.value
+                                    }
+                                },
+
+
+
+
+
+                })
+            </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></div></code></pre>
 
     </body>
     </html>
