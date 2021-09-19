@@ -493,7 +493,7 @@
                             })
 
     6,vue的双向数据绑定 
-    
+
             <div id="app">
             <h2> v-model只能用在有value属性的标签上，它是v-bind：value和v-on=input的语法糖</h2>
             <input type="text" v-model="msg">
@@ -514,10 +514,48 @@
                                         this.msg = e.target.value
                                     }
                                 },
-
-
-
-
-
                 })
             </script>
+```
+    7,局部组件
+```js
+            <div id="app">
+            </div>
+                <script src="../node_modules/vue/dist/vue.js"></script>
+                <script>
+                    // 组件的声明
+                    var App = {
+                            data(){
+                                return{
+                                    
+                                }
+                            },
+                            methods: {
+                                clickhandler(e){
+                                    console.log(this);  
+                                }
+                            },  
+                            template:`
+                                <div>
+                                    马吉春是世界之神
+                                    <button @click='clickhandler'></button>
+                                </div>
+                                `
+                            }
+                            const app = new Vue({
+                                    el:'#app',
+                                    data() {
+                                        return {
+                                            
+                                        }
+                                    },
+                                    // 组件的挂载
+                                    components:{
+                                        App
+                                    },
+                                    template: `
+                                        <App></App>
+
+                                    `
+                                    })
+                                </script>
