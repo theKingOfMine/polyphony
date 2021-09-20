@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">马吉春是世界之神</div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        /*  组件数据间的传值 1，先给父组件中绑定自定义属性
+                          2，在子组件中使用props接受负组件的数据
+
+
+        */
+        Vue.component('Parent', {
+            data() {
+                return {
+                    father: '真几把吓人'
+                }
+            },
+            template:`
+                <div>
+                    <p>我是父组件</p>
+                    <Child :childData='father' @childHandler='childHandler'/>
+                </div>
+            `,
+            methods: {
+                childHandler(val){
+                    console.log(val);
+                }
+            }
+        })
+
+        Vue.component('Child', {
+            template:`
+                <div>
+                    <p>我是孩子组件</p>
+                    <h2>{{childData}}</h2>
+                    <input type='text' @input = 'changeValue(childData)' v-model='childData'/>
+                </div>
+            `,
+            //用来接受组件传值
+            props:[
+                'childData'
+            ],
+            methods: {
+                changeValue(val){
+                    this.$emit('childHandler', val)
+                }
+            },
+        
+        })
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },  
+            template: `
+                <Parent />
+            
+            `
+            
+
+        })
+
+    </script>
+</body>
+
+</html>

@@ -523,7 +523,7 @@
             </div>
                 <script src="../node_modules/vue/dist/vue.js"></script>
                 <script>
-                    // 组件的声明
+                    // 1，组件的声明
                     var App = {
                             data(){
                                 return{
@@ -549,13 +549,259 @@
                                             
                                         }
                                     },
-                                    // 组件的挂载
+                                    // 2，组件的挂载
                                     components:{
                                         App
                                     },
+                                    //3，组件的使用
                                     template: `
                                         <App></App>
 
                                     `
                                     })
                                 </script>
+```
+    8,全局组件演示
+            //全局组件
+    Vue.component('Vbtn', {
+    template:  `
+        <button>我是全局组件按钮,马吉春是世界之神</button>
+    `
+    })
+
+
+        局部组件
+        var Vheader = {
+            template:  `
+            <div>
+                <Vbtn />
+                <div>我是头部组件</div>
+                <Vbtn />
+                <Vbtn />
+    
+            </div>
+            `
+        }
+
+        var Vside = {
+            template:`<div>我是侧边栏组件<Vbtn /></div>`
+        }
+
+        var Vcontent = {
+            template:  `
+            <div>我是内容组件<Vbtn /></div>
+            `
+        }
+
+        var App = {
+                template: `
+                    <div> 
+                        
+                        <Vheader />
+                        <div>
+                        <Vside />
+                        <Vcontent />
+                        </div>
+                    </div>
+                `,
+                components:{
+                    Vheader,
+                    Vside,
+                    Vcontent
+                }
+            };
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },
+            components:{
+                App
+           
+            },
+
+            template:`
+            <App />
+           
+            `
+        })
+
+
+    </script>
+    
+    9，组件之间的传值
+```js
+        代码演示
+            1，父组件可以直接给子组件传值，子组件通过props接收，子组件给父组件传值需要定义一个自定义函数。
+
+    <body>
+        <div id="app">马吉春是世界之神</div>
+        <script src="../node_modules/vue/dist/vue.min.js"></script>
+        <script>
+            /*  组件数据间的传值 1，先给父组件中绑定自定义属性
+                            2，在子组件中使用props接受负组件的数据
+
+
+            */
+            Vue.component('Parent', {
+                data() {
+                    return {
+                        father: '真几把吓人'
+                    }
+                },
+                template:`
+                    <div>
+                        <p>我是父组件</p>
+                        // childData这个变量将值传给了子组件，//@childHandler这个方法，将子组件的值传给了父组件
+                        <Child :childData='father' @childHandler='childHandler'/>
+                    </div>
+                `,
+                methods: {
+                    childHandler(val){
+                        console.log(val);
+                    }
+                }
+            })
+
+            Vue.component('Child', {
+                template:`
+                    <div>
+                        <p>我是孩子组件</p>
+                        <h2>{{childData}}</h2>
+                        <input type='text' @input = 'changeValue(childData)' v-model='childData'/>
+                    </div>
+                `,
+                //用来接受组件传值
+                props:[
+                    'childData'
+                ],
+                methods: {
+                    changeValue(val){
+                        this.$emit('childHandler', val)
+                    }
+                },
+            
+            })
+
+            const app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        
+                    }
+                },  
+                template: `
+                    <Parent />
+                
+                `
+                
+
+            })
+
+        </script>
+    </body>
+```
+10，插槽的应用
+```js
+        <body>
+    <div id="app"></div>
+
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //全局组件 插槽的用法 <slot>标签
+        Vue.component('Vbtn', {
+            template: `
+                <button class='btn' :class='type'>
+                    <slot></slot>    
+                </button>
+            `,
+            props: ['type']
+        })
+
+        var Vcontent = {
+            template: `
+                <div>
+                    <h2>我是内容组件</h2>
+                    <Vbtn>登陆</Vbtn>
+                    <Vbtn type='active'>注册</Vbtn>
+                </div>
+            `
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },
+            components: {
+                Vcontent
+            },
+            template: `
+                <Vcontent />
+            
+            `
+
+
+
+            })
+
+
+        </script>
+    </body>
+
+    插槽 2
+
+    <body>
+    <div id="app"></div>
+
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //全局组件 插槽的用法 <slot>标签
+        Vue.component('myLi', {
+            template: `
+                <li>
+                    <slot name='two'></slot>
+                    <slot name='three'></slot>
+            
+                </li>
+            `,
+            props: ['type']
+        })
+
+        var Vcontent = {
+            template: `
+                <div>
+                    <ul>
+                        <myLi>
+                        <h2 slot='two'>我草泥马，我有点不开心</h2>
+                        <h2 slot='three'>我草泥马，我有点不开心3</h2>
+                        </myLi>
+                    </ul>
+                </div>
+            `
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },
+            components: {
+                Vcontent
+            },
+            template: `
+                <Vcontent />
+            
+            `
+        })
+        </script>
+    </body>

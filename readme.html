@@ -535,7 +535,7 @@ git rm -r 删除文件夹
             &lt;/div&gt;
                 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
                 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-                    <span class="hljs-comment">// 组件的声明</span>
+                    <span class="hljs-comment">// 1，组件的声明</span>
                     <span class="hljs-keyword">var</span> App = {
                             data(){
                                 <span class="hljs-keyword">return</span>{
@@ -561,16 +561,261 @@ git rm -r 删除文件夹
                                             
                                         }
                                     },
-                                    <span class="hljs-comment">// 组件的挂载</span>
+                                    <span class="hljs-comment">// 2，组件的挂载</span>
                                     <span class="hljs-attr">components</span>:{
                                         App
                                     },
+                                    <span class="hljs-comment">//3，组件的使用</span>
                                     <span class="hljs-attr">template</span>: <span class="hljs-string">`
                                         &lt;App&gt;&lt;/App&gt;
 
                                     `</span>
                                     })
-                                </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></div></code></pre>
+                                </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+</div></code></pre>
+<pre><code>8,全局组件演示
+        //全局组件
+Vue.component('Vbtn', {
+template:  `
+    &lt;button&gt;我是全局组件按钮,马吉春是世界之神&lt;/button&gt;
+`
+})
+
+
+    局部组件
+    var Vheader = {
+        template:  `
+        &lt;div&gt;
+            &lt;Vbtn /&gt;
+            &lt;div&gt;我是头部组件&lt;/div&gt;
+            &lt;Vbtn /&gt;
+            &lt;Vbtn /&gt;
+
+        &lt;/div&gt;
+        `
+    }
+
+    var Vside = {
+        template:`&lt;div&gt;我是侧边栏组件&lt;Vbtn /&gt;&lt;/div&gt;`
+    }
+
+    var Vcontent = {
+        template:  `
+        &lt;div&gt;我是内容组件&lt;Vbtn /&gt;&lt;/div&gt;
+        `
+    }
+
+    var App = {
+            template: `
+                &lt;div&gt; 
+                    
+                    &lt;Vheader /&gt;
+                    &lt;div&gt;
+                    &lt;Vside /&gt;
+                    &lt;Vcontent /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            `,
+            components:{
+                Vheader,
+                Vside,
+                Vcontent
+            }
+        };
+
+    const app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                
+            }
+        },
+        components:{
+            App
+       
+        },
+
+        template:`
+        &lt;App /&gt;
+       
+        `
+    })
+
+
+&lt;/script&gt;
+
+9，组件之间的传值
+</code></pre>
+<pre><code class="language-js"><div>        代码演示
+            <span class="hljs-number">1</span>，父组件可以直接给子组件传值，子组件通过props接收，子组件给父组件传值需要定义一个自定义函数。
+
+    &lt;body&gt;
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>马吉春是世界之神<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="handlebars"><span class="xml">
+            /*  组件数据间的传值 1，先给父组件中绑定自定义属性
+                            2，在子组件中使用props接受负组件的数据
+
+
+            */
+            Vue.component(&#x27;Parent&#x27;, {
+                data() {
+                    return {
+                        father: &#x27;真几把吓人&#x27;
+                    }
+                },
+                template:`
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>我是父组件<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                        // childData这个变量将值传给了子组件，//@childHandler这个方法，将子组件的值传给了父组件
+                        <span class="hljs-tag">&lt;<span class="hljs-name">Child</span> <span class="hljs-attr">:childData</span>=<span class="hljs-string">&#x27;father&#x27;</span> @<span class="hljs-attr">childHandler</span>=<span class="hljs-string">&#x27;childHandler&#x27;</span>/&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                `,
+                methods: {
+                    childHandler(val){
+                        console.log(val);
+                    }
+                }
+            })
+
+            Vue.component(&#x27;Child&#x27;, {
+                template:`
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>我是孩子组件<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span></span><span class="hljs-template-variable">{{<span class="hljs-name">childData</span>}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;text&#x27;</span> @<span class="hljs-attr">input</span> = <span class="hljs-string">&#x27;changeValue(childData)&#x27;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&#x27;childData&#x27;</span>/&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                `,
+                //用来接受组件传值
+                props:[
+                    &#x27;childData&#x27;
+                ],
+                methods: {
+                    changeValue(val){
+                        this.$emit(&#x27;childHandler&#x27;, val)
+                    }
+                },
+            
+            })
+
+            const app = new Vue({
+                el: &#x27;#app&#x27;,
+                data() {
+                    return {
+                        
+                    }
+                },  
+                template: `
+                    <span class="hljs-tag">&lt;<span class="hljs-name">Parent</span> /&gt;</span>
+                
+                `
+                
+
+            })
+
+        </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+    &lt;/body&gt;
+</div></code></pre>
+<p>10，插槽的应用</p>
+<pre><code class="language-js"><div>        &lt;body&gt;
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+
+
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="handlebars"><span class="xml">
+        //全局组件 插槽的用法 <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span>标签
+        Vue.component(&#x27;Vbtn&#x27;, {
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;btn&#x27;</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&#x27;type&#x27;</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>    
+                <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+            `,
+            props: [&#x27;type&#x27;]
+        })
+
+        var Vcontent = {
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>我是内容组件<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">Vbtn</span>&gt;</span>登陆<span class="hljs-tag">&lt;/<span class="hljs-name">Vbtn</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">Vbtn</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;active&#x27;</span>&gt;</span>注册<span class="hljs-tag">&lt;/<span class="hljs-name">Vbtn</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            `
+        }
+
+        const app = new Vue({
+            el: &#x27;#app&#x27;,
+            data() {
+                return {
+                    
+                }
+            },
+            components: {
+                Vcontent
+            },
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">Vcontent</span> /&gt;</span>
+            
+            `
+
+
+
+            })
+
+
+        </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+
+    插槽 <span class="hljs-number">2</span>
+
+    &lt;body&gt;
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+
+
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="handlebars"><span class="xml">
+        //全局组件 插槽的用法 <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span>标签
+        Vue.component(&#x27;myLi&#x27;, {
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;two&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;three&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+            
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            `,
+            props: [&#x27;type&#x27;]
+        })
+
+        var Vcontent = {
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">myLi</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;two&#x27;</span>&gt;</span>我草泥马，我有点不开心<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;three&#x27;</span>&gt;</span>我草泥马，我有点不开心3<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">myLi</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            `
+        }
+
+        const app = new Vue({
+            el: &#x27;#app&#x27;,
+            data() {
+                return {
+                    
+                }
+            },
+            components: {
+                Vcontent
+            },
+            template: `
+                <span class="hljs-tag">&lt;<span class="hljs-name">Vcontent</span> /&gt;</span>
+            
+            `
+        })
+        </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span></div></code></pre>
 
     </body>
     </html>

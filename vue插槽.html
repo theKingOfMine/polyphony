@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .btn {
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .active{
+            background-color: #606266;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        //全局组件 插槽的用法 <slot>标签
+        Vue.component('myLi', {
+            template: `
+                <li>
+                    <slot name='two'></slot>
+                    <slot name='three'></slot>
+            
+                </li>
+            `,
+            props: ['type']
+        })
+
+        var Vcontent = {
+            template: `
+                <div>
+                    <ul>
+                        <myLi>
+                        <h2 slot='two'>我草泥马，我有点不开心</h2>
+                        <h2 slot='three'>我草泥马，我有点不开心3</h2>
+                        </myLi>
+                    </ul>
+                </div>
+            `
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },
+            components: {
+                Vcontent
+            },
+            template: `
+                <Vcontent />
+            
+            `
+
+
+
+        })
+
+
+    </script>
+</body>
+</html>
