@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">马吉春是世界之神</div>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+       
+
+        //过滤器的作用，为页面中的数据进行添油加醋的作用，有两种：
+        
+        //全局过滤器，局部过滤器；// 过滤器 filters:{}
+
+        //1，全局过滤器
+        Vue.filter('my', function (value) {
+                return value + '，我听说过这句话，当初，我只知道，马吉春是个传说，没想到，他又出现在这个世界上啦！！！'
+                })
+
+
+        
+        /*
+        1,声明过滤器，
+        2，{{数据 ｜ 过滤器的名字}}
+        */
+
+        var App = {
+            data() {
+                return {
+                    price: 0,
+                    msg: '神之界世是春吉马 卧槽居然成功了'
+                }
+            },
+            template: `
+                <div>
+                    <h1>马吉春，我会把你照顾好的</h1>    
+                    <input type='number' v-model='price'/>
+                    <h3>{{price | myCurrentcy}}</h3>
+                    <h3>{{msg | my}}</h3>
+                </div>
+            `,
+            filters: {
+                //声明过滤器
+                myCurrentcy: (val)=>{
+                    return '¥' + val
+                },
+                myReverse: (val)=>{
+                    return val.split('').reverse().join('');
+                }            
+            }
+
+
+        }
+        //入口
+        const app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                    }
+                },
+               
+                template: `
+                    <App></App>
+                `,
+                
+                components:{
+                    App
+                }
+            })
+
+    </script>
+</body>
+</html>

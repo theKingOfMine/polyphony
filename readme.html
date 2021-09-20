@@ -815,7 +815,80 @@ template:  `
             `
         })
         </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span></div></code></pre>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+</div></code></pre>
+<pre><code>11， 过滤器,专门修理字符串的东西
+</code></pre>
+<pre><code class="language-js"><div>
+    &lt;body&gt;
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>马吉春是世界之神<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        
+
+            <span class="hljs-comment">//过滤器的作用，为页面中的数据进行添油加醋的作用，有两种：</span>
+            
+            <span class="hljs-comment">//全局过滤器，局部过滤器；// 过滤器 filters:{}</span>
+
+            <span class="hljs-comment">//1，全局过滤器</span>
+            Vue.filter(<span class="hljs-string">&#x27;my&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>{
+                    <span class="hljs-keyword">return</span> value + <span class="hljs-string">&#x27;，我听说过这句话，当初，我只知道，马吉春是个传说，没想到，他又出现在这个世界上啦！！！&#x27;</span>
+                    })
+
+
+            
+            <span class="hljs-comment">/*
+            1,声明过滤器，
+            2，{{数据 ｜ 过滤器的名字}}
+            */</span>
+
+            <span class="hljs-keyword">var</span> App = {
+                data() {
+                    <span class="hljs-keyword">return</span> {
+                        <span class="hljs-attr">price</span>: <span class="hljs-number">0</span>,
+                        <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;神之界世是春吉马 卧槽居然成功了&#x27;</span>
+                    }
+                },
+                <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                    &lt;div&gt;
+                        &lt;h1&gt;马吉春，我会把你照顾好的&lt;/h1&gt;    
+                        &lt;input type=&#x27;number&#x27; v-model=&#x27;price&#x27;/&gt;
+                        &lt;h3&gt;{{price | myCurrentcy}}&lt;/h3&gt;
+                        &lt;h3&gt;{{msg | my}}&lt;/h3&gt;
+                    &lt;/div&gt;
+                `</span>,
+                <span class="hljs-attr">filters</span>: {
+                    <span class="hljs-comment">//声明过滤器</span>
+                    <span class="hljs-attr">myCurrentcy</span>: <span class="hljs-function">(<span class="hljs-params">val</span>)=&gt;</span>{
+                        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;¥&#x27;</span> + val
+                    },
+                    <span class="hljs-attr">myReverse</span>: <span class="hljs-function">(<span class="hljs-params">val</span>)=&gt;</span>{
+                        <span class="hljs-keyword">return</span> val.split(<span class="hljs-string">&#x27;&#x27;</span>).reverse().join(<span class="hljs-string">&#x27;&#x27;</span>);
+                    }            
+                }
+
+
+            }
+            <span class="hljs-comment">//入口</span>
+            <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Vue({
+                    <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+                    data() {
+                        <span class="hljs-keyword">return</span> {
+                        }
+                    },
+                
+                    <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                        &lt;App&gt;&lt;/App&gt;
+                    `</span>,
+                    
+                    <span class="hljs-attr">components</span>:{
+                        App
+                    }
+                })
+
+        </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+    &lt;/body&gt;
+</div></code></pre>
 
     </body>
     </html>
