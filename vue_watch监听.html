@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <input type="text" v-model = 'msg'>
+        <h3>{{msg}}</h3>
+        <button @click = 'girls[0].name="泰3"'>{{girls[0].name}}</button>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        // watch 监听（侦听器）的是单个属性，变量的变化，监听属性的变化，只能监听字符串，数字。复杂的数据结构需要深度监听
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: '',
+                    girls: [{name: '胡敏婕'}]
+                }
+            },
+            watch: {
+                msg: function(newV, oldV){
+                    console.log(newV, oldV);
+                    if(newV === '马吉春'){
+                        alert('马吉春是世界之神');
+                    }
+                },
+                //深度监听
+                girls:{
+                    deep:true, //深度监听
+                    handler:function(newV, oldV){
+                        console.log(oldV[0].__ob__);
+                        console.log(newV);
+                }
+            }
+
+            }
+            
+
+        })
+
+    </script>
+</body>
+</html>

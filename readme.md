@@ -877,3 +877,223 @@
 
         </script>
     </body>
+```
+12 watch 监听
+```js
+
+    <body>
+    
+    <div id="app">
+        <input type="text" v-model = 'msg'>
+        <h3>{{msg}}</h3>
+        <button @click = 'girls[0].name="泰3"'>{{girls[0].name}}</button>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        // watch 监听（侦听器）的是单个属性，变量的变化，监听属性的变化，只能监听字符串，数字。复杂的数据结构需要深度监听
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: '',
+                    girls: [{name: '胡敏婕'}]
+                }
+            },
+            watch: {
+                msg: function(newV, oldV){
+                    console.log(newV, oldV);
+                    if(newV === '马吉春'){
+                        alert('马吉春是世界之神');
+                    }
+                },
+                //深度监听
+                girls:{
+                    deep:true, //深度监听
+                    handler:function(newV, oldV){
+                        console.log(oldV[0].__ob__);
+                        console.log(newV);
+                }
+            }
+
+            }
+            
+
+        })
+
+        </script>
+    </body>
+```
+    12,  //计算属性,默认只有getter 相当于监听属性. 很好用过，要学好
+``js
+            <body>
+                <div id="app">
+                    <div>马吉春是世界之神</div>
+                    <audio  autoplay controls :src="getCurrentSongSrc"></audio>
+                        <ul v-for='(album, i) in music'>
+                            <li v-for='(m, j) in album.music'  @click='clickHandler(i, j)' :class='{active:album_id == i && music_id == j}'>
+                                <h2>{{m.music_id}}.{{m.music_name}}</h2>
+                                <p>{{m.author}}</p>
+                            </li>
+                        </ul>
+                </div>
+``js
+            <script src="../node_modules/vue/dist/vue.min.js"></script>
+            <script src="./js/musicList.js"></script>
+            <script>
+                console.log(musicList.message.album);
+                var music = musicList.message.album;
+```js
+                new Vue({
+                    el: '#app',
+                    data() {
+                        return {
+                            music,
+                            album_id: 0,
+                            music_id: 0
+                        }
+                    },
+                    computed: {
+                        //计算属性默认只有getter 相当于监听属性
+                        // getCurrentSongSrc: function(){
+                        //     return this.music[this.album_id].music[this.music_id].music_url;
+                        // }
+
+
+                        //getter方式，其实还没太明白
+                        getCurrentSongSrc: {
+                            set: function(newV){
+                                this.music[this.album_id].music[this.music_id].music_url = newV;
+                            },
+                            get: function(){
+                                return this.music[this.album_id].music[this.music_id].music_url;
+                            }
+                        }
+                    },
+                    methods: {
+                        clickHandler(i, j){
+                            // console.log(i, j);
+                            this.album_id = i;
+                            this.music_id = j;
+                            console.log(this.getCurrentSongSrc);
+                            this.music[this.album_id].music[this.music_id].music_url;
+
+                            }
+                        },
+                    })
+
+
+                </script>
+            </body>
+```
+    13,组件的生命周期
+```js
+        <body>
+            <h1>vue组件的生命周期</h1>
+            <div class="line"></div>
+            <div id="app"></div>
+            
+            <script src="../node_modules/vue/dist/vue.min.js"></script>
+            <script>
+                Vue.component('Test', {
+                    data() {
+                        return {
+                            msg: '我是全局组件：马吉春是世界之神'
+                        }
+                    },
+                    template: `
+                        <div>
+                            <div>{{msg}}</div>
+                            <button @click='changerHandler'>改变</button>
+                        </div>
+                    `,
+                    methods: {
+                        changerHandler(){
+                            this.msg = this.msg + '加上我好玩吗，马吉春，你好帅呀'
+                        }
+                    },
+                    //-----------组件的生命周期函数
+                    //当前组件创建之前
+                    beforeCreate() {
+                        console.log("组件创建之前")
+                    },
+                    //组件创建之后，使用该组件就会调用created方法，在created方法中可以操作后端数据，数据驱动视图
+                    created() {
+                        console.log('组件已经创建完成');
+                    },
+                    //挂载数据在dom之前
+                    beforeMount() {
+                        console.log('挂载组件之前');
+                    },
+                    //挂载数据在dom之后，会调用vue作用以后的dom
+                    mounted() {
+                        console.log('挂载组件之后');
+                    },
+                    // 在更新dom之前，调用该钩子，应用：可以获取原始dom
+                    beforeUpdate() {
+                        console.log('数据更新之前')
+                    },
+                    //在更新dom之后回调用该钩子，应用：可以获取原新的dom
+                    updated() {
+                        console.log('数据更新之后');
+                    },
+                    //在组件结束之前调用该钩子
+                    beforeDestroy() {
+                        console.log('这是世界原来的样子');
+                    },
+                    //组件删除之后调用该钩子
+                    destroyed() {
+                        console.log('组件被删除了');
+                    },
+                    //如果用了<keep-alive>组件，那就可以调用组件被激活这个函数
+                    activated() {
+                        console.log('组件被激活了')
+                    },
+                    deactivated() {
+                        console.log('组件被停用了')
+                    },
+
+                })
+
+                var App = {
+                    data() {
+                        return {
+                            isLive : true
+                        }
+                    },
+                    //vue提供了一个内置组件可以将销毁的组件临时保存在内存当中，避免重复渲染
+                    //<keep-alive></keep-alive>能在组件的切换过程中将状态保留在内存中，防止重复渲染dom
+                    template: `
+                        <div class='app'>
+                            <keep-alive>
+                            <Test v-if='isLive'/>    
+                            </keep-alive>
+                            <button @click = 'isLive=!isLive'>来赌一局</button>
+                            
+                        </div>
+                    `
+                }
+
+
+
+                new Vue({
+                    el: '#app',
+                    data() {
+                        return {
+                            
+                        }
+                    },
+                    template: `
+                        <App />
+                    
+                    `,
+                    components: {
+                        App
+                    }
+                })
+
+
+
+            </script>
+        </body>
+        </html>

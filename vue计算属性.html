@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        ul li{
+            margin:10px;
+            padding: 10px 5px;
+            height: 100px;
+        }
+        ul .active{
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>马吉春是世界之神</div>
+        <audio  autoplay controls :src="getCurrentSongSrc"></audio>
+            <ul v-for='(album, i) in music'>
+                <li v-for='(m, j) in album.music'  @click='clickHandler(i, j)' :class='{active:album_id == i && music_id == j}'>
+                    <h2>{{m.music_id}}.{{m.music_name}}</h2>
+                    <p>{{m.author}}</p>
+                </li>
+            </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="./js/musicList.js"></script>
+    <script>
+        console.log(musicList.message.album);
+        var music = musicList.message.album;
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    music,
+                    album_id: 0,
+                    music_id: 0
+                }
+            },
+            computed: {
+                //计算属性默认只有getter 相当于监听属性
+                // getCurrentSongSrc: function(){
+                //     return this.music[this.album_id].music[this.music_id].music_url;
+                // }
+
+
+                //getter方式，其实还没太明白
+                getCurrentSongSrc: {
+                    set: function(newV){
+                        this.music[this.album_id].music[this.music_id].music_url = newV;
+                    },
+                    get: function(){
+                        return this.music[this.album_id].music[this.music_id].music_url;
+                    }
+                }
+            },
+            methods: {
+                clickHandler(i, j){
+                    // console.log(i, j);
+                    this.album_id = i;
+                    this.music_id = j;
+                    console.log(this.getCurrentSongSrc);
+                    this.music[this.album_id].music[this.music_id].music_url;
+
+                }
+            },
+        })
+
+
+    </script>
+</body>
+</html>

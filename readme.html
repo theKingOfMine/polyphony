@@ -889,6 +889,212 @@ template:  `
         </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
     &lt;/body&gt;
 </div></code></pre>
+<p>12 watch 监听</p>
+<pre><code class="language-js"><div>
+    &lt;body&gt;
+    
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">v-model</span> = <span class="hljs-string">&#x27;msg&#x27;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{{msg}}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span> = <span class="hljs-string">&#x27;girls[0].name=&quot;泰3&quot;&#x27;</span>&gt;</span>{{girls[0].name}}<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-comment">// watch 监听（侦听器）的是单个属性，变量的变化，监听属性的变化，只能监听字符串，数字。复杂的数据结构需要深度监听</span>
+        <span class="hljs-keyword">new</span> Vue({
+            <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+            data() {
+                <span class="hljs-keyword">return</span> {
+                    <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+                    <span class="hljs-attr">girls</span>: [{<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;胡敏婕&#x27;</span>}]
+                }
+            },
+            <span class="hljs-attr">watch</span>: {
+                <span class="hljs-attr">msg</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newV, oldV</span>)</span>{
+                    <span class="hljs-built_in">console</span>.log(newV, oldV);
+                    <span class="hljs-keyword">if</span>(newV === <span class="hljs-string">&#x27;马吉春&#x27;</span>){
+                        alert(<span class="hljs-string">&#x27;马吉春是世界之神&#x27;</span>);
+                    }
+                },
+                <span class="hljs-comment">//深度监听</span>
+                <span class="hljs-attr">girls</span>:{
+                    <span class="hljs-attr">deep</span>:<span class="hljs-literal">true</span>, <span class="hljs-comment">//深度监听</span>
+                    <span class="hljs-attr">handler</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newV, oldV</span>)</span>{
+                        <span class="hljs-built_in">console</span>.log(oldV[<span class="hljs-number">0</span>].__ob__);
+                        <span class="hljs-built_in">console</span>.log(newV);
+                }
+            }
+
+            }
+            
+
+        })
+
+        </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+</div></code></pre>
+<pre><code>12,  //计算属性,默认只有getter 相当于监听属性. 很好用过，要学好
+</code></pre>
+<p><code>js             &lt;body&gt;                 &lt;div id=&quot;app&quot;&gt;                     &lt;div&gt;马吉春是世界之神&lt;/div&gt;                     &lt;audio  autoplay controls :src=&quot;getCurrentSongSrc&quot;&gt;&lt;/audio&gt;                         &lt;ul v-for='(album, i) in music'&gt;                             &lt;li v-for='(m, j) in album.music'  @click='clickHandler(i, j)' :class='{active:album_id == i &amp;&amp; music_id == j}'&gt;                                 &lt;h2&gt;{{m.music_id}}.{{m.music_name}}&lt;/h2&gt;                                 &lt;p&gt;{{m.author}}&lt;/p&gt;                             &lt;/li&gt;                         &lt;/ul&gt;                 &lt;/div&gt; </code>js
+<script src="../node_modules/vue/dist/vue.min.js"></script>
+<script src="./js/musicList.js"></script>
+<script>
+console.log(musicList.message.album);
+var music = musicList.message.album;</p>
+<pre><code class="language-js"><div>                <span class="hljs-keyword">new</span> Vue({
+                    <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+                    data() {
+                        <span class="hljs-keyword">return</span> {
+                            music,
+                            <span class="hljs-attr">album_id</span>: <span class="hljs-number">0</span>,
+                            <span class="hljs-attr">music_id</span>: <span class="hljs-number">0</span>
+                        }
+                    },
+                    <span class="hljs-attr">computed</span>: {
+                        <span class="hljs-comment">//计算属性默认只有getter 相当于监听属性</span>
+                        <span class="hljs-comment">// getCurrentSongSrc: function(){</span>
+                        <span class="hljs-comment">//     return this.music[this.album_id].music[this.music_id].music_url;</span>
+                        <span class="hljs-comment">// }</span>
+
+
+                        <span class="hljs-comment">//getter方式，其实还没太明白</span>
+                        <span class="hljs-attr">getCurrentSongSrc</span>: {
+                            <span class="hljs-attr">set</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newV</span>)</span>{
+                                <span class="hljs-built_in">this</span>.music[<span class="hljs-built_in">this</span>.album_id].music[<span class="hljs-built_in">this</span>.music_id].music_url = newV;
+                            },
+                            <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+                                <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.music[<span class="hljs-built_in">this</span>.album_id].music[<span class="hljs-built_in">this</span>.music_id].music_url;
+                            }
+                        }
+                    },
+                    <span class="hljs-attr">methods</span>: {
+                        clickHandler(i, j){
+                            <span class="hljs-comment">// console.log(i, j);</span>
+                            <span class="hljs-built_in">this</span>.album_id = i;
+                            <span class="hljs-built_in">this</span>.music_id = j;
+                            <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.getCurrentSongSrc);
+                            <span class="hljs-built_in">this</span>.music[<span class="hljs-built_in">this</span>.album_id].music[<span class="hljs-built_in">this</span>.music_id].music_url;
+
+                            }
+                        },
+                    })
+
+
+                &lt;/script&gt;
+            &lt;/body&gt;
+</div></code></pre>
+<pre><code>13,组件的生命周期
+</code></pre>
+<pre><code class="language-js"><div>        &lt;body&gt;
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>vue组件的生命周期<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;line&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+            
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../node_modules/vue/dist/vue.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+                Vue.component(<span class="hljs-string">&#x27;Test&#x27;</span>, {
+                    data() {
+                        <span class="hljs-keyword">return</span> {
+                            <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;我是全局组件：马吉春是世界之神&#x27;</span>
+                        }
+                    },
+                    <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                        &lt;div&gt;
+                            &lt;div&gt;{{msg}}&lt;/div&gt;
+                            &lt;button @click=&#x27;changerHandler&#x27;&gt;改变&lt;/button&gt;
+                        &lt;/div&gt;
+                    `</span>,
+                    <span class="hljs-attr">methods</span>: {
+                        changerHandler(){
+                            <span class="hljs-built_in">this</span>.msg = <span class="hljs-built_in">this</span>.msg + <span class="hljs-string">&#x27;加上我好玩吗，马吉春，你好帅呀&#x27;</span>
+                        }
+                    },
+                    <span class="hljs-comment">//-----------组件的生命周期函数</span>
+                    <span class="hljs-comment">//当前组件创建之前</span>
+                    beforeCreate() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;组件创建之前&quot;</span>)
+                    },
+                    <span class="hljs-comment">//组件创建之后，使用该组件就会调用created方法，在created方法中可以操作后端数据，数据驱动视图</span>
+                    created() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;组件已经创建完成&#x27;</span>);
+                    },
+                    <span class="hljs-comment">//挂载数据在dom之前</span>
+                    beforeMount() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;挂载组件之前&#x27;</span>);
+                    },
+                    <span class="hljs-comment">//挂载数据在dom之后，会调用vue作用以后的dom</span>
+                    mounted() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;挂载组件之后&#x27;</span>);
+                    },
+                    <span class="hljs-comment">// 在更新dom之前，调用该钩子，应用：可以获取原始dom</span>
+                    beforeUpdate() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;数据更新之前&#x27;</span>)
+                    },
+                    <span class="hljs-comment">//在更新dom之后回调用该钩子，应用：可以获取原新的dom</span>
+                    updated() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;数据更新之后&#x27;</span>);
+                    },
+                    <span class="hljs-comment">//在组件结束之前调用该钩子</span>
+                    beforeDestroy() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;这是世界原来的样子&#x27;</span>);
+                    },
+                    <span class="hljs-comment">//组件删除之后调用该钩子</span>
+                    destroyed() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;组件被删除了&#x27;</span>);
+                    },
+                    <span class="hljs-comment">//如果用了&lt;keep-alive&gt;组件，那就可以调用组件被激活这个函数</span>
+                    activated() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;组件被激活了&#x27;</span>)
+                    },
+                    deactivated() {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;组件被停用了&#x27;</span>)
+                    },
+
+                })
+
+                <span class="hljs-keyword">var</span> App = {
+                    data() {
+                        <span class="hljs-keyword">return</span> {
+                            <span class="hljs-attr">isLive</span> : <span class="hljs-literal">true</span>
+                        }
+                    },
+                    <span class="hljs-comment">//vue提供了一个内置组件可以将销毁的组件临时保存在内存当中，避免重复渲染</span>
+                    <span class="hljs-comment">//&lt;keep-alive&gt;&lt;/keep-alive&gt;能在组件的切换过程中将状态保留在内存中，防止重复渲染dom</span>
+                    <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                        &lt;div class=&#x27;app&#x27;&gt;
+                            &lt;keep-alive&gt;
+                            &lt;Test v-if=&#x27;isLive&#x27;/&gt;    
+                            &lt;/keep-alive&gt;
+                            &lt;button @click = &#x27;isLive=!isLive&#x27;&gt;来赌一局&lt;/button&gt;
+                            
+                        &lt;/div&gt;
+                    `</span>
+                }
+
+
+
+                <span class="hljs-keyword">new</span> Vue({
+                    <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,
+                    data() {
+                        <span class="hljs-keyword">return</span> {
+                            
+                        }
+                    },
+                    <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                        &lt;App /&gt;
+                    
+                    `</span>,
+                    <span class="hljs-attr">components</span>: {
+                        App
+                    }
+                })
+
+
+
+            </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+        &lt;/html&gt;</div></code></pre>
 
     </body>
     </html>

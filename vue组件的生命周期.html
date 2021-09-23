@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/overall.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>vue组件的生命周期</h1>
+    <div class="line"></div>
+    <div id="app"></div>
+    
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('Test', {
+            data() {
+                return {
+                    msg: '我是全局组件：马吉春是世界之神'
+                }
+            },
+            template: `
+                <div>
+                    <div>{{msg}}</div>
+                    <button @click='changerHandler'>改变</button>
+                </div>
+            `,
+            methods: {
+                changerHandler(){
+                    this.msg = this.msg + '加上我好玩吗，马吉春，你好帅呀'
+                }
+            },
+            //-----------组件的生命周期函数
+            //当前组件创建之前
+            beforeCreate() {
+                console.log("组件创建之前")
+            },
+            //组件创建之后，使用该组件就会调用created方法，在created方法中可以操作后端数据，数据驱动视图
+            created() {
+                console.log('组件已经创建完成');
+            },
+            //挂载数据在dom之前
+            beforeMount() {
+                console.log('挂载组件之前');
+            },
+            //挂载数据在dom之后，会调用vue作用以后的dom
+            mounted() {
+                console.log('挂载组件之后');
+            },
+            // 在更新dom之前，调用该钩子，应用：可以获取原始dom
+            beforeUpdate() {
+                console.log('数据更新之前')
+            },
+            //在更新dom之后回调用该钩子，应用：可以获取原新的dom
+            updated() {
+                console.log('数据更新之后');
+            },
+            //在组件结束之前调用该钩子
+            beforeDestroy() {
+                console.log('这是世界原来的样子');
+            },
+            //组件删除之后调用该钩子
+            destroyed() {
+                console.log('组件被删除了');
+            },
+            //如果用了<keep-alive>组件，那就可以调用组件被激活这个函数
+            activated() {
+                console.log('组件被激活了')
+            },
+            deactivated() {
+                console.log('组件被停用了')
+            },
+
+        })
+
+        var App = {
+            data() {
+                return {
+                    isLive : true
+                }
+            },
+            //vue提供了一个内置组件可以将销毁的组件临时保存在内存当中，避免重复渲染
+            //<keep-alive></keep-alive>能在组件的切换过程中将状态保留在内存中，防止重复渲染dom
+            template: `
+                <div class='app'>
+                    <keep-alive>
+                    <Test v-if='isLive'/>    
+                    </keep-alive>
+                    <button @click = 'isLive=!isLive'>来赌一局</button>
+                    
+                </div>
+            `
+        }
+
+
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                }
+            },
+            template: `
+                <App />
+            
+            `,
+            components: {
+                App
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>
